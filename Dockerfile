@@ -12,13 +12,14 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Make sure Apache uses ONLY prefork MPM
-RUN a2dismod mpm_event || true \
-    && a2dismod mpm_worker || true \
+# Force Apache to use only prefork
+RUN rm -f /etc/apache2/mods-enabled/mpm_event.load \
+          /etc/apache2/mods-enabled/mpm_event.conf \
+          /etc/apache2/mods-enabled/mpm_worker.load \
+          /etc/apache2/mods-enabled/mpm_worker.conf \
     && a2enmod mpm_prefork \
     && a2enmod rewrite
 
-# Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html
@@ -40,13 +41,17 @@ RUN sed -i \
     '/<Directory \/var\/www\/>/,/<\/Directory>/ s/AllowOverride None/AllowOverride All/' \
     /etc/apache2/apache2.conf
 
-# Permissions
+# Laravel permissions
 RUN chown -R www-data:www-data \
     /var/www/html/storage \
     /var/www/html/bootstrap/cache \
     && chmod -R 775 \
     /var/www/html/storage \
     /var/www/html/bootstrap/cache
+
+# IMPORTANT:
+# Make Docker build fail immediately if Apache configuration is invalid.
+RUN apache2ctl configtest
 
 EXPOSE 8080
 
