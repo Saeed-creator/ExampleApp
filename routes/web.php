@@ -13,9 +13,6 @@ use App\Http\Controllers\UserController;
 |
 */
 
-Route::get('/test', function () {
-    return response()->json([
-        'status' => 'ok',
-        'message' => 'Laravel is working'
-    ]);
+Route::get('/heba', function () {
+    return "Heba is the Queen";
 });
