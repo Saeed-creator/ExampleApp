@@ -2,8 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\BookController;
+use App\Http\Controllers\AuthController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -14,12 +14,5 @@ use App\Http\Controllers\BookController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-
-
-Route::prefix('Books')->group(function () {
-    Route::get('/index', [BookController::class, 'index']);
-    Route::get('/show/{id}', [BookController::class, 'show']);
-    Route::post('/create', [BookController::class, 'create']);
-    Route::put('/update/{id}', [BookController::class, 'update']);
-    Route::delete('/delete/{id}', [BookController::class, 'delete']);
-});
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/register', [AuthController::class, 'register']);

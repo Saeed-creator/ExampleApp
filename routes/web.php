@@ -13,6 +13,6 @@ use App\Http\Controllers\UserController;
 |
 */
 
-Route::get('/heba', function () {
-    return "Heba is the Queen";
+Route::get('/test', function () {
+    return "The server is Running";
 });
