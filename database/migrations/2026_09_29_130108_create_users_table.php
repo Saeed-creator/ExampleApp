@@ -18,14 +18,12 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-
+            $table->date('birth_date');
             $table->string('western_zodiac_sign', 20);
             $table->string('chinese_zodiac_animal', 20);
-
             $table->string('language', 5)->default('en');
-
+            $table->string('access_level', 10)->default('free');
             $table->string('timezone')->default('UTC');
-
             $table->rememberToken();
             $table->timestamps();
         });

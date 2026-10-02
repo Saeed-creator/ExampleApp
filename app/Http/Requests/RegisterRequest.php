@@ -56,6 +56,10 @@ class RegisterRequest extends FormRequest
                 'required',
                 'timezone',
             ],
+            'birth_date' => [
+            'required',
+            'date',           
+            ],
         ];
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Enums\AccessLevel;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use Illuminate\Support\Facades\Hash;
@@ -31,14 +32,16 @@ class AuthController extends Controller
                     'id' => $user->id,
                     'name' => $user->name,
                     'email' => $user->email,
+                    'birth_date' => $user->birth_date,
                     'western_zodiac_sign' => $user->western_zodiac_sign,
                     'chinese_zodiac_animal' => $user->chinese_zodiac_animal,
                     'language' => $user->language,
+                    'access_level' =>  $user->access_level,
                     'timezone' => $user->timezone,
                 ],
                 'token' => $token,
             ],
-        ]);
+        ],201);
     }
     public function register(RegisterRequest $request): JsonResponse
     {
@@ -48,9 +51,11 @@ class AuthController extends Controller
             'name' => $data['name'],
             'email' => strtolower($data['email']),
             'password' => Hash::make($data['password']),
+            'birth_date' => $data['birth_date'],
             'western_zodiac_sign' => $data['western_zodiac_sign'],
             'chinese_zodiac_animal' => $data['chinese_zodiac_animal'],
             'language' => $data['language'],
+            'access_level' => AccessLevel::FREE,
             'timezone' => $data['timezone'],
         ]);
 
@@ -61,9 +66,11 @@ class AuthController extends Controller
                     'id' => $user->id,
                     'name' => $user->name,
                     'email' => $user->email,
+                    'birth_date' => $user->birth_date,
                     'western_zodiac_sign' => $user->western_zodiac_sign,
                     'chinese_zodiac_animal' => $user->chinese_zodiac_animal,
                     'language' => $user->language,
+                    'access_level' =>  $user->access_level,
                     'timezone' => $user->timezone,
                 ],
             ],
