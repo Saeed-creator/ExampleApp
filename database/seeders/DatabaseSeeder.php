@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Database\Seeders\BookSeeder;
+use Database\Seeders\PredictionSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -12,8 +12,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-
-        $this->call(BookSeeder::class);
-
+        $this->call([
+            PredictionSeeder::class,
+        ]);
     }
 }
