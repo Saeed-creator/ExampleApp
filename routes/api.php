@@ -23,4 +23,12 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 Route::middleware('auth:sanctum')->group(function () {
     Route::patch('/profile', [UserController::class, 'updateProfile']);
+    Route::post('/logout', [AuthController::class,'logout']);
+});
+
+
+Route::middleware('auth:sanctum')->group(function () {
+
+
+
 });
