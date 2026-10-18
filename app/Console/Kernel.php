@@ -13,6 +13,10 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         // $schedule->command('inspire')->hourly();
+
+        // Runs every hour; each run notifies the users whose local time is
+        // currently FCM_DAILY_HOUR, so everyone gets it once a day at their own 8 AM.
+        $schedule->command('predictions:notify')->hourly()->withoutOverlapping();
     }
 
     /**

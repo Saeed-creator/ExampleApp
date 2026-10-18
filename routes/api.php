@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PredictionController;
 use App\Http\Controllers\UserController;
-
+use App\Http\Controllers\DeviceTokenController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -31,4 +31,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
 
 
+});
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/device-tokens', [DeviceTokenController::class, 'store']);
 });

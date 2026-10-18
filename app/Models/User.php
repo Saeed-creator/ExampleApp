@@ -6,6 +6,7 @@ use App\Enums\ChineseZodiacAnimal;
 use App\Enums\AccessLevel;
 use App\Enums\Language;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -42,5 +43,9 @@ class User extends Authenticatable
             'access_level' => AccessLevel::class,
             'birth_date' => 'date',
         ];
+    }
+    public function deviceTokens(): HasMany
+    {
+        return $this->hasMany(DeviceToken::class);
     }
 }

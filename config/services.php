@@ -30,5 +30,16 @@ return [
         'secret' => env('AWS_SECRET_ACCESS_KEY'),
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
+    'fcm' => [
+        // Firebase service-account key (Firebase console > Project settings >
+        // Service accounts > Generate new private key). Never commit this file.
+        'credentials' => env('FIREBASE_CREDENTIALS', storage_path('app/firebase-credentials.json')),
 
+        // Alternative to the file, for hosts such as Railway where uploading a file is
+        // awkward: put the whole key here, either as raw JSON or base64-encoded JSON.
+        'credentials_json' => env('FIREBASE_CREDENTIALS_JSON'),
+
+        // Local hour (0-23, in each user's own timezone) for the daily push.
+        'daily_hour' => (int) env('FCM_DAILY_HOUR', 8),
+    ],
 ];

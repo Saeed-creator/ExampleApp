@@ -1,0 +1,8 @@
+.env
+.env.backup
+.env.production
+.phpunit.result.cache
+
+# Firebase service-account keys are secrets: never commit them.
+firebase-credentials*.json
+*-firebase-adminsdk-*.json

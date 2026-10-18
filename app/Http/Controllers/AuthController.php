@@ -76,8 +76,20 @@ class AuthController extends Controller
             ],
         ], 201);
     }
-    public function logout(Request $request): JsonResponse
+       public function logout(Request $request): JsonResponse
     {
+        $request->validate([
+            'device_token' => ['nullable', 'string', 'max:512'],
+        ]);
+
+        // Stop pushes for this user on this device once they log out.
+        if ($request->filled('device_token')) {
+            $request->user()
+                ->deviceTokens()
+                ->where('token', $request->input('device_token'))
+                ->delete();
+        }
+
         $request->user()
             ->currentAccessToken()
             ->delete();
