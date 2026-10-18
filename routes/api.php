@@ -18,20 +18,16 @@ use App\Http\Controllers\DeviceTokenController;
 */
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:auth-login');
+Route::post('/register', [AuthController::class, 'register'])->middleware('throttle:auth-register');
+
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/prediction', [PredictionController::class, 'getPrediction']);
-});
-Route::middleware('auth:sanctum')->group(function () {
+
+    Route::get('/profile', [UserController::class, 'show']);
     Route::patch('/profile', [UserController::class, 'updateProfile']);
-    Route::post('/logout', [AuthController::class,'logout']);
-});
+    Route::delete('/profile', [UserController::class, 'destroy']);
 
-
-Route::middleware('auth:sanctum')->group(function () {
-
-
-
-});
-Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/device-tokens', [DeviceTokenController::class, 'store']);
 });
