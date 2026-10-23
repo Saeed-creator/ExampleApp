@@ -26,35 +26,37 @@ class PasswordResetController extends Controller
      * Always answers 200 with the same message, whether or not the email has an
      * account, so nobody can discover which emails are registered.
      */
-    public function forgot(ForgotPasswordRequest $request, PasswordResetCodeService $codes): JsonResponse
-    {
-        $response = response()->json([
-            'message' => 'If an account exists for this email, a verification code is on its way.',
-        ]);
+   public function forgot(
+    ForgotPasswordRequest $request,
+    PasswordResetCodeService $codes): JsonResponse {
+    $response = response()->json([
+        'message' => 'If an account exists for this email, a verification code is on its way.',
+    ]);
 
-        $user = User::where('email', $request->email)->first();
+    $user = User::where('email', $request->email)->first();
 
-        if (! $user) {
-            return $response()->json([
-            'message' => 'If an account exists for this email, a verification code is on its way.',
-        ]);;
-        }
-
-        // At most one code email per address per cooldown window (stops email bombing).
-        $cooldown = (int) config('password_reset.resend_cooldown_seconds');
-        if (! Cache::add('password-reset-cooldown:'.$user->id, true, $cooldown)) {
-            return $response;
-        }
-
-        try {
-            $user->notify(new ResetCodeNotification($codes->issue($user->email)));
-        } catch (Throwable $e) {
-            // Mail problems must not change the answer (that would reveal the account exists).
-            Log::error('Password reset email failed: '.$e->getMessage());
-        }
-
+    if (! $user) {
         return $response;
     }
+
+    // At most one code email per address per cooldown window.
+    $cooldown = (int) config('password_reset.resend_cooldown_seconds');
+
+    if (! Cache::add('password-reset-cooldown:'.$user->id, true, $cooldown)) {
+        return $response;
+    }
+
+    try {
+        $user->notify(
+            new ResetCodeNotification($codes->issue($user->email))
+        );
+    } catch (Throwable $e) {
+        // Keep the response identical to avoid revealing registered emails.
+        Log::error('Password reset email failed: '.$e->getMessage());
+    }
+
+    return $response;
+}
 
     /**
      * POST /api/reset-password
