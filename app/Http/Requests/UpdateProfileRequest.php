@@ -42,6 +42,13 @@ class UpdateProfileRequest extends FormRequest
                 'required',
                 new Enum(ChineseZodiacAnimal::class),
             ],
+
+            // Push notifications switch: true = on, false = off.
+            'notifications_enabled' => [
+                'sometimes',
+                'required',
+                'boolean',
+            ],
         ];
     }
 }

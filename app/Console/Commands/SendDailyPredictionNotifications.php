@@ -30,8 +30,10 @@ class SendDailyPredictionNotifications extends Command
 
         $notified = 0;
 
-        // Only users with at least one registered device are worth looking at.
+        // Only users who have notifications switched ON and at least one
+        // registered device are worth looking at.
         User::query()
+            ->where('notifications_enabled', true)
             ->whereHas('deviceTokens')
             ->chunkById(200, function ($users) use ($hour, &$notified) {
                 foreach ($users as $user) {

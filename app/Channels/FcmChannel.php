@@ -17,6 +17,13 @@ class FcmChannel
 
     public function send(object $notifiable, Notification $notification): void
     {
+        // The user switched notifications off in the app: send nothing. This
+        // is checked here too (not only when picking users) because queued
+        // notifications may run after the user changed the setting.
+        if (! $notifiable->notifications_enabled) {
+            return;
+        }
+
         /** @var array{title: string, body: string, data?: array} $message */
         $message = $notification->toFcm($notifiable);
 

@@ -38,6 +38,7 @@ class AuthController extends Controller
                     'language' => $user->language,
                     'access_level' =>  $user->access_level,
                     'timezone' => $user->timezone,
+                    'notifications_enabled' => (bool) $user->notifications_enabled,
                 ],
                 'token' => $token,
             ],
@@ -57,6 +58,7 @@ class AuthController extends Controller
             'language' => $data['language'],
             'access_level' => AccessLevel::FREE,
             'timezone' => $data['timezone'],
+            'notifications_enabled' => true,
         ]);
 
         return response()->json([
@@ -72,6 +74,7 @@ class AuthController extends Controller
                     'language' => $user->language,
                     'access_level' =>  $user->access_level,
                     'timezone' => $user->timezone,
+                    'notifications_enabled' => (bool) $user->notifications_enabled,
                 ],
             ],
         ], 201);

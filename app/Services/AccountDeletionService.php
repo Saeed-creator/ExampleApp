@@ -9,7 +9,7 @@ class AccountDeletionService
 {
     /**
      * Permanently removes the user and everything linked to them:
-     * API tokens, push device tokens and the
+     * API tokens, push device tokens, any pending password-reset code and the
      * user row itself. Nothing is retained.
      */
     public function delete(User $user): void
@@ -17,6 +17,7 @@ class AccountDeletionService
         DB::transaction(function () use ($user) {
             $user->tokens()->delete();          // revoke every Sanctum token
             $user->deviceTokens()->delete();    // FCM tokens (also cascades in the DB)
+            DB::table('password_reset_codes')->where('email', $user->email)->delete(); // pending reset code
             $user->delete();
         });
     }

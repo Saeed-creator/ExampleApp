@@ -25,6 +25,12 @@ class User extends Authenticatable
         'language',
         'access_level',
         'timezone',
+        'notifications_enabled',
+    ];
+
+    // Laravel 10 reads the $casts property (the casts() method below is only used from Laravel 11).
+    protected $casts = [
+        'notifications_enabled' => 'boolean',
     ];
 
     protected $hidden = [

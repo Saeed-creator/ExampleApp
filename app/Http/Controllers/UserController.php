@@ -26,6 +26,7 @@ class UserController extends Controller
                     'language' => $user->language,
                     'access_level' =>  $user->access_level,
                     'timezone' => $user->timezone,
+                    'notifications_enabled' => (bool) $user->notifications_enabled,
                 ],
             ],
         ]);
@@ -45,6 +46,7 @@ class UserController extends Controller
                     'language' => $user->language,
                     'access_level' =>  $user->access_level,
                     'timezone' => $user->timezone,
+                    'notifications_enabled' => (bool) $user->notifications_enabled,
             ],
         ]);
     }

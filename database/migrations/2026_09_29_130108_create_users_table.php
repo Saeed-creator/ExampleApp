@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('language', 5)->default('en');
             $table->string('access_level', 10)->default('free');
             $table->string('timezone')->default('UTC');
+            $table->boolean('notifications_enabled')->default(true);
             $table->rememberToken();
             $table->timestamps();
         });
