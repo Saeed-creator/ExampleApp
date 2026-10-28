@@ -56,6 +56,18 @@ class PasswordResetCodeService
         return $row && Hash::check($code, $row->code_hash);
     }
 
+    /**
+     * Gives back one attempt (used by the "verify code" step after a RIGHT code, which
+     * must not use up the attempts the final reset still needs).
+     */
+    public function refundAttempt(string $email): void
+    {
+        DB::table(self::TABLE)
+            ->where('email', strtolower($email))
+            ->where('attempts', '>', 0)
+            ->decrement('attempts');
+    }
+
     public function forget(string $email): void
     {
         DB::table(self::TABLE)->where('email', strtolower($email))->delete();
