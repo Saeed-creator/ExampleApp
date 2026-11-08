@@ -6,7 +6,9 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PredictionController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\DeviceTokenController;
-use App\Http\Controllers\PasswordResetController;
+use App\Http\Controllers\ForgotPasswordController;
+use App\Http\Controllers\VerifyResetCodeController;
+use App\Http\Controllers\ResetPasswordController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -21,8 +23,9 @@ Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:au
 Route::post('/register', [AuthController::class, 'register'])->middleware('throttle:auth-register');
 
 // Forgot password with an emailed verification code (no authentication needed).
-Route::post('/forgot-password', [PasswordResetController::class, 'forgot'])->middleware('throttle:forgot-password');
-Route::post('/reset-password', [PasswordResetController::class, 'reset'])->middleware('throttle:reset-password');
+Route::post('/forgot-password', [ForgotPasswordController::class, 'forgot'])->middleware('throttle:forgot-password');   // 1. email the code
+Route::post('/verify-reset-code', [VerifyResetCodeController::class, 'verifyCode'])->middleware('throttle:reset-password'); // 2. check the code (optional)
+Route::post('/reset-password', [ResetPasswordController::class, 'reset'])->middleware('throttle:reset-password');       // 3. set the new password
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/prediction', [PredictionController::class, 'getPrediction']);
